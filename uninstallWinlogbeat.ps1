@@ -43,7 +43,7 @@ if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) 
     Set-ExecutionPolicy Unrestricted
 
     #Change Directory to winlogbeat
-    Set-Location -Path 'c:\Winlogbeat-master\winlogbeat'
+    Set-Location -Path 'c:\Winlogbeat-7.7.0\winlogbeat'
 
     #Stops winlogbeat from running
     Stop-Service -Force winlogbeat
@@ -56,7 +56,7 @@ if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) 
 
     "`nUninstalling winlogbeat Now..."
 
-    $Target = "C:\winlogbeat-master"
+    $Target = "C:\winlogbeat-7.7.0"
 
     Get-ChildItem -Path $Target -Recurse -force |
         Where-Object { -not ($_.pscontainer)} |
