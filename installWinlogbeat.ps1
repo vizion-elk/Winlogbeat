@@ -10,7 +10,7 @@ if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) 
 
     "`nYou are running Powershell with full privilege`n"
 
-    Set-Location -Path 'c:\winlogbeat-master\winlogbeat'
+    Set-Location -Path 'c:\winlogbeat-6.5.4\winlogbeat'
     Set-ExecutionPolicy Unrestricted
     
     "Metricbeat Execution policy set - Success`n"
