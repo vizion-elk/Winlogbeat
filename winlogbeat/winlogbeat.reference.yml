@@ -26,21 +26,18 @@ winlogbeat.event_logs:
   - name: Application
     ignore_older: 72h
 
+    # Set to true to publish fields with null values in events.
+    #keep_null: false
+
   - name: System
 
-  - name: Security
-    processors:
-      - script:
-          lang: javascript
-          id: security
-          file: ${path.home}/module/security/config/winlogbeat-security.js
+    # Set to true to publish fields with null values in events.
+    #keep_null: false
 
-  - name: Microsoft-Windows-Sysmon/Operational
-    processors:
-      - script:
-          lang: javascript
-          id: sysmon
-          file: ${path.home}/module/sysmon/config/winlogbeat-sysmon.js
+  - name: Security
+
+    # Set to true to publish fields with null values in events.
+    #keep_null: false
 
 
 
