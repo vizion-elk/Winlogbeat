@@ -9,7 +9,7 @@ Keeps a pulse on what's happening across Windows-based infrastructure. Winlogbea
 1) As administrator, enter the following command in Powershell or download the zip file [here](https://github.com/vizion-elk/Winlogbeat/archive/7.7.0.zip).
 
 ```
-Start-BitsTransfer -Source 'https://github.com/vizion-elk/Winlogbeat/archive/7.7.0.zip' -Destination 'C:\Users\Administrator\Downloads\Winlogbeat.zip'
+Start-BitsTransfer -Source "https://github.com/vizion-elk/Winlogbeat/archive/7.7.0.zip" -Destination "${env:USERPROFILE}\Downloads\Winlogbeat.zip"
 ```
 
 2) Unzip the package and extract the contents to the `C:/` drive.
