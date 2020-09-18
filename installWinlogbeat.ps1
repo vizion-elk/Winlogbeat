@@ -1,23 +1,32 @@
-﻿
-
-Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope CurrentUser	
+﻿Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope CurrentUser
 Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope LocalMachine
 Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope Process
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 
 $principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 
 if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 
     "`nYou are running Powershell with full privilege`n"
-
-    Set-Location -Path 'c:\winlogbeat-7.7.0\winlogbeat'
-    Set-ExecutionPolicy Unrestricted
     
     "Metricbeat Execution policy set - Success`n"
 
+    #Change Folder to winlogbeat
+    $currentLocation = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+
+    If ( -Not (Test-Path -Path "$currentLocation\winlogbeat") )
+    {
+        Write-Host -Object "Path $currentLocation\winlogbeat does not exit, exiting..." -ForegroundColor Red
+        Exit 1
+    }
+    Else
+    {
+        Set-Location -Path "$currentLocation\winlogbeat"
+    }
+
     
     #=========== Winlogbeat Credentials Form ===========#
-    "`nAdding Winlogbeat Credentials`n"
+    "Adding Winlogbeat Credentials`n"
 
     #GUI To Insert User Credentials
     #Pop-up Box that Adds Credentials 
@@ -114,7 +123,7 @@ if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) 
 
 
     #Load Winlogbeat Credentials And Run
-    "`nAdding Winlogbeat Credentials...`n"
+    "Adding Winlogbeat Credentials...`n"
 
     #Opens up YML file and inserts Kibana Host URL       
     (Get-Content winlogbeat.yml) |       
@@ -137,10 +146,11 @@ if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) 
             Set-Content winlogbeat.yml
 
     #Runs the config test to make sure all data has been inputted correctly
-    .\winlogbeat.exe -e -configtest
+    .\winlogbeat.exe test config
+    .\winlogbeat.exe test output
 
     #Loads winlogbeat Preconfigured Dashboards
-    .\winlogbeat.exe setup --dashboards
+    ./winlogbeat setup -e
 
     #Installs winlogbeat as a service
     .\install-service-winlogbeat.ps1
@@ -166,7 +176,7 @@ if($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) 
     "`nWinlogbeat Started. Check Kibana For The Incoming Data!"
 
     #Close Powershell window
-    Stop-Process -Id $PID
+    #Stop-Process -Id $PID
 
 }
 else {
