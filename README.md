@@ -14,7 +14,13 @@ Start-BitsTransfer -Source "https://github.com/vizion-elk/Winlogbeat/archive/7.7
 
 2) Unzip the package and extract the contents to the `C:/` drive.
 
-3) Back in Powershell, CD into the extracted folder and run the following script:
+3) Back in Powershell, CD into the extracted folder and run the following command:
+
+```
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
+```
+
+4) then run the following script:
 
 ```
 .\installWinlogbeat.ps1
